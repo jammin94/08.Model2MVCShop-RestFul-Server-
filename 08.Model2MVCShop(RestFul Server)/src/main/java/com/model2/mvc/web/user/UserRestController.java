@@ -1,5 +1,6 @@
 package com.model2.mvc.web.user;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,4 +63,29 @@ public class UserRestController {
 		
 		return dbUser;
 	}
+	
+	@RequestMapping( value="json/addUser", method=RequestMethod.GET )
+	public Map<String,String> addUser() throws Exception{
+	
+		System.out.println("/user/addUser : GET");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("redirect", "redirect:/user/addUserView.jsp");
+		
+		return map;
+	}
+	
+	@RequestMapping( value="json/addUser", method=RequestMethod.POST )
+	public Map<String,Object> addUser(@RequestBody User user) throws Exception{
+	
+		System.out.println("/user/addUser : POST");
+		//Business Logic
+		userService.addUser(user);
+		String url=new String("redirect:/user/loginView.jsp");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("user", user);
+		map.put("redirect", url);
+		
+		return map;
+	}
+	
 }
